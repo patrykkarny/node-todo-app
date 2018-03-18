@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --watch",
     "start:dev": "nodemon server/server.js --exec babel-node",
-    "postinstall": "babel server -d build",
-    "start": "node build/server.js"
+    "build": "babel server -d build",
+    "start": "npm run build && node build/server.js"
   },
   "engines": {
     "node": "9.8.0"
