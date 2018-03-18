@@ -7,7 +7,7 @@
     "test": "jest --watch",
     "start:dev": "nodemon server/server.js --exec babel-node",
     "build": "babel server -d build",
-    "start": "npm run build && node build/server.js"
+    "start": "node build/server.js"
   },
   "engines": {
     "node": "9.8.0"
