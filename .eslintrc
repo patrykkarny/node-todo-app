@@ -1,0 +1,16 @@
+{
+  "root": true,
+  "extends": "airbnb-base",
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "import/prefer-default-export": 0,
+    "no-console": 0,
+    "consistent-return": 0
+  },
+  "globals": {
+    "NODE_ENV": true
+  }
+}
