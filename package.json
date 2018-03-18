@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watch",
-    "start": "nodemon server/server.js --exec babel-node",
+    "start:dev": "nodemon server/server.js --exec babel-node",
     "build": "babel server -d build",
-    "serve": "node build/server.js"
+    "start": "npm run build && node build/server.js"
+  },
+  "engines": {
+    "node": "9.8.0"
   },
   "keywords": [],
   "author": "",

@@ -8,6 +8,7 @@ import { Todo } from './models/todo';
 import { User } from './models/user'; // eslint-disable-line
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -44,7 +45,7 @@ app.get('/todos/:id', (req, res) => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(3000, () => console.log('Started on port 3000'));
+  app.listen(port, () => console.log(`Listen on port ${port}`));
 }
 
 export { app };
