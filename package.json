@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --watch",
     "start:dev": "nodemon server/server.js --exec babel-node",
-    "build": "babel -d ./build ./server",
+    "clean": "rm -rf ./build && mkdir ./build",
+    "build": "npm run clean && babel -d ./build ./server",
     "start": "npm run build && node ./build/server.js"
   },
   "engines": {
