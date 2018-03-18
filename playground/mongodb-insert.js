@@ -1,4 +1,4 @@
-const { MongoClient, ObjectID }  = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const errorHandler = (err, result) => {
   if (err) {
@@ -27,7 +27,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
       name: 'Janusz',
       age: 30,
       location: 'Bialystok',
-    }, errorHandler)
+    }, errorHandler);
 
   client.close();
 });

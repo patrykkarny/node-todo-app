@@ -1,4 +1,4 @@
-const { MongoClient, ObjectID }  = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   if (err) {
@@ -16,7 +16,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   //     (docs) => {
   //       console.log('Todos');
   //       console.log(JSON.stringify(docs, null, 2));
-  //     }, 
+  //     },
   //     err => console.log('Unable to fetch todos'),
   //   );
 
@@ -26,7 +26,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   //   .then(
   //     (count) => {
   //       console.log(`Todos count ${count}`);
-  //     }, 
+  //     },
   //     err => console.log('Unable to fetch todos'),
   //   );
 
@@ -37,8 +37,8 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
       (users) => {
         console.log('Uasers');
         console.log(JSON.stringify(users, null, 2));
-      }, 
-      err => console.log('Unable to fetch users'),
+      },
+      () => console.log('Unable to fetch users'),
     );
 
   client.close();
