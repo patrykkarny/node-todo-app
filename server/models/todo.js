@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const Todo = mongoose.model('Todo', {
+export const Todo = mongoose.model('Todo', {
   text: {
     type: String,
     required: true,
@@ -16,7 +16,3 @@ const Todo = mongoose.model('Todo', {
     default: null,
   },
 });
-
-module.exports = {
-  Todo,
-};

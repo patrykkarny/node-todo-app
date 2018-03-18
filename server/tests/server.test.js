@@ -1,20 +1,18 @@
-const request = require('supertest');
+import request from 'supertest';
 
-const { app } = require('../server');
-const { Todo } = require('../models/todo');
+import { app } from '../server';
+import { Todo } from '../models/todo';
 
 const todos = [{
   text: 'Test 1',
 }, {
-  text: 'Test 2'
+  text: 'Test 2',
 }];
-
-console.log(process.env.NODE_ENV)
 
 beforeEach((done) => {
   Todo.remove({})
     .then(() => Todo.insertMany(todos))
-    .then(() => done())
+    .then(() => done());
 });
 
 describe('POST /todos', () => {
@@ -25,25 +23,18 @@ describe('POST /todos', () => {
       .post('/todos')
       .send({ text })
       .expect(200)
-      .expect((res) => {
-        expect(res.body.text).toBe(text);
-      })
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
+      .expect(res => expect(res.body.text).toBe(text))
+      .end((err) => {
+        if (err) return done(err);
 
-        Todo
-          .find({ text })
-          .then((todos) => {
-            expect(todos.length).toBe(1);
-            expect(todos[0].text).toBe(text);
+        Todo.find({ text })
+          .then((allTodos) => {
+            expect(allTodos.length).toBe(1);
+            expect(allTodos[0].text).toBe(text);
             done();
           })
-          .catch((err) => {
-            done(err);
-          });
-      })
+          .catch(error => done(error));
+      });
   });
 
   it('should not create todo with invalid data', (done) => {
@@ -51,14 +42,16 @@ describe('POST /todos', () => {
       .post('/todos')
       .send({})
       .expect(400)
-      .end((err, res) => {
+      .end((err) => {
         if (err) return done(err);
 
-        Todo.find().then((todos) => {
-          expect(todos.length).toBe(2);
-          done();
-        }).catch(err => done(err));
-      })
+        Todo.find()
+          .then((allTodos) => {
+            expect(allTodos.length).toBe(2);
+            done();
+          })
+          .catch(error => done(error));
+      });
   });
 });
 
@@ -68,6 +61,6 @@ describe('GET /todos', () => {
       .get('/todos')
       .expect(200)
       .expect(res => expect(res.body.todos.length).toBe(2))
-      .end(done)
+      .end(done);
   });
 });
