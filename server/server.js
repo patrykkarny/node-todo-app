@@ -1,5 +1,7 @@
 import express from 'express';
 import { ObjectID } from 'mongodb';
+import pick from 'lodash/pick';
+import isBoolean from 'lodash/isBoolean';
 
 import bodyParser from 'body-parser';
 
@@ -53,6 +55,27 @@ app.delete('/todos/:id', (req, res) => {
 
   Todo.findByIdAndRemove(id)
     .then(todo => (todo ? res.send({ todo }) : res.send(404).send('Todo not found')))
+    .catch(() => res.status(400).send());
+});
+
+app.patch('/todos/:id', (req, res) => {
+  const { id } = req.params;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send('Invalid ID');
+  }
+
+  const { text, completed } = pick(req.body, ['text', 'completed']);
+  const isCompleted = isBoolean(completed) && completed;
+
+  const body = {
+    text,
+    completed: isCompleted,
+    completedAt: isCompleted ? new Date().getTime() : null,
+  };
+
+  Todo.findByIdAndUpdate(id, { $set: body }, { new: true })
+    .then(todo => (todo ? res.send({ todo }) : res.status(404).send('Todo not found')))
     .catch(() => res.status(400).send());
 });
 
