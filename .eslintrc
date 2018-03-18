@@ -8,7 +8,8 @@
   "rules": {
     "import/prefer-default-export": 0,
     "no-console": 0,
-    "consistent-return": 0
+    "consistent-return": 0,
+    "no-underscore-dangle": 0
   },
   "globals": {
     "NODE_ENV": true
