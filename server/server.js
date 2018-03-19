@@ -1,16 +1,19 @@
 import express from 'express';
 import { ObjectID } from 'mongodb';
+import bodyParser from 'body-parser';
+
 import pick from 'lodash/pick';
 import isBoolean from 'lodash/isBoolean';
 
-import bodyParser from 'body-parser';
+import './config/config';
 
 import { mongoose } from './db/mongoose'; // eslint-disable-line no-unused-vars
 import { Todo } from './models/todo';
 import { User } from './models/user'; // eslint-disable-line
 
+
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
