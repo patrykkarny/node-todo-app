@@ -11,7 +11,6 @@ import { mongoose } from './db/mongoose'; // eslint-disable-line no-unused-vars
 import { Todo } from './models/todo';
 import { User } from './models/user'; // eslint-disable-line
 
-
 const app = express();
 const port = process.env.PORT;
 
@@ -82,8 +81,16 @@ app.patch('/todos/:id', (req, res) => {
     .catch(() => res.status(400).send());
 });
 
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(port, () => console.log(`Listen on port ${port}`));
-}
+app.post('/users', (req, res) => {
+  const body = pick(req.body, ['email', 'password']);
+  const user = new User(body);
+
+  user.save()
+    .then(() => user.generateAuthToken())
+    .then(token => res.header('x-auth', token).send(user))
+    .catch(error => res.status(400).send(error));
+});
+
+app.listen(port, () => console.log(`Listen on port ${port}`));
 
 export { app };
