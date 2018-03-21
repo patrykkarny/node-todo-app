@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import pick from 'lodash/pick';
 
 const UserSchema = new mongoose.Schema({
@@ -49,6 +49,23 @@ UserSchema.methods.generateAuthToken = function generateAuthToken() {
   ];
 
   return user.save().then(() => token);
+};
+
+UserSchema.statics.findByToken = function findByToken(token) {
+  const User = this;
+  let decoded;
+
+  try {
+    decoded = verify(token, 'abc123');
+  } catch (e) {
+    return Promise.reject();
+  }
+
+  return User.findOne({
+    _id: decoded._id,
+    'tokens.token': token,
+    'tokens.access': 'auth',
+  });
 };
 
 export const User = mongoose.model('User', UserSchema);

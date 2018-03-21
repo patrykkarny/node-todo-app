@@ -9,7 +9,8 @@ import './config/config';
 
 import { mongoose } from './db/mongoose'; // eslint-disable-line no-unused-vars
 import { Todo } from './models/todo';
-import { User } from './models/user'; // eslint-disable-line
+import { User } from './models/user';
+import { authenticate } from './middleware/authenticate';
 
 const app = express();
 const port = process.env.PORT;
@@ -89,6 +90,10 @@ app.post('/users', (req, res) => {
     .then(() => user.generateAuthToken())
     .then(token => res.header('x-auth', token).send(user))
     .catch(error => res.status(400).send(error));
+});
+
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
 });
 
 app.listen(port, () => console.log(`Listen on port ${port}`));
