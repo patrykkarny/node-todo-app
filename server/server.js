@@ -5,12 +5,12 @@ import bodyParser from 'body-parser';
 import pick from 'lodash/pick';
 import isBoolean from 'lodash/isBoolean';
 
-import './config/config';
-
-import { mongoose } from './db/mongoose'; // eslint-disable-line no-unused-vars
 import { Todo } from './models/todo';
 import { User } from './models/user';
 import { authenticate } from './middleware/authenticate';
+
+import './config/config';
+import './db/mongoose';
 
 const app = express();
 const port = process.env.PORT;
@@ -96,6 +96,8 @@ app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
 });
 
-app.listen(port, () => console.log(`Listen on port ${port}`));
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => console.log(`Listen on port ${port}`));
+}
 
 export { app };

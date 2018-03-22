@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 import { sign, verify } from 'jsonwebtoken';
 import pick from 'lodash/pick';
+import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -13,6 +14,7 @@ const UserSchema = new mongoose.Schema({
       validator: isEmail,
       message: '{VALUE} email is not a valid email',
     },
+    unique: true,
   },
   password: {
     type: String,
@@ -67,5 +69,21 @@ UserSchema.statics.findByToken = function findByToken(token) {
     'tokens.access': 'auth',
   });
 };
+
+UserSchema.pre('save', function save(next) {
+  const user = this;
+
+  if (user.isModified('password')) {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (e, hash) => {
+        user.password = hash;
+
+        next();
+      });
+    });
+  } else {
+    next();
+  }
+});
 
 export const User = mongoose.model('User', UserSchema);

@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "crypto-js": "^3.1.9-1",
     "express": "^4.16.3",
@@ -35,5 +36,14 @@
     "eslint-plugin-import": "^2.9.0",
     "jest": "^22.4.2",
     "supertest": "^3.0.0"
+  },
+  "jest": {
+    "automock": false,
+    "testMatch": [
+      "<rootDir>/server/**/?(*.)(spec|test).js?(x)"
+    ],
+    "modulePaths": [
+      "<rootDir>/server/"
+    ]
   }
 }
