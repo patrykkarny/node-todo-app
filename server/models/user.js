@@ -88,17 +88,19 @@ UserSchema.statics.findByCredentials = function findByCredentials({ email, passw
 UserSchema.pre('save', function save(next) {
   const user = this;
 
-  if (user.isModified('password')) {
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(user.password, salt, (e, hash) => {
-        user.password = hash;
+  return (
+    user.isModified('password')
+      ? (
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(user.password, salt, (e, hash) => {
+            user.password = hash;
 
-        next();
-      });
-    });
-  } else {
-    next();
-  }
+            next();
+          });
+        })
+      )
+      : next()
+  );
 });
 
 export const User = mongoose.model('User', UserSchema);
