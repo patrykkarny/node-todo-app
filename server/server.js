@@ -1,7 +1,6 @@
 import express from 'express';
 import { ObjectID } from 'mongodb';
 import bodyParser from 'body-parser';
-import bcrypt from 'bcryptjs';
 
 import pick from 'lodash/pick';
 import isBoolean from 'lodash/isBoolean';
@@ -103,6 +102,12 @@ app.post('/users/login', (req, res) => {
   User.findByCredentials(credentials)
     .then(user => user.generateAuthToken().then(token => res.header('x-auth', token).send(user)))
     .catch(err => res.status(401).send(err));
+});
+
+app.delete('/users/me/token', authenticate, (req, res) => {
+  req.user.removeToken(req.token)
+    .then(() => res.send())
+    .catch(() => res.status(400).send());
 });
 
 if (process.env.NODE_ENV !== 'test') {
