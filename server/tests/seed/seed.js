@@ -18,16 +18,22 @@ export const users = [{
   _id: userTwoId,
   email: 'kamil@example.com',
   password: 'SimplePass11!',
+  tokens: [{
+    access: 'auth',
+    token: sign({ _id: userTwoId, access: 'auth' }, 'abc123').toString(),
+  }],
 }];
 
 export const todos = [{
   _id: new ObjectID(),
   text: 'Test 1',
+  _creator: userOneId,
 }, {
   _id: new ObjectID(),
   text: 'Test 2',
   completed: true,
   completedAt: 123,
+  _creator: userTwoId,
 }];
 
 export const populateTodos = (done) => {

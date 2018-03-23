@@ -15,6 +15,10 @@ const TodoSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
+  _creator: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+  },
 });
 
 export const Todo = mongoose.model('Todo', TodoSchema);
