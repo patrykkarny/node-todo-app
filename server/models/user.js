@@ -43,7 +43,7 @@ UserSchema.methods.toJSON = function toJSON() {
 UserSchema.methods.generateAuthToken = function generateAuthToken() {
   const user = this;
   const access = 'auth';
-  const token = sign({ _id: user._id.toHexString(), access }, 'abc123').toString();
+  const token = sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString();
 
   user.tokens = [
     ...user.tokens,
@@ -70,7 +70,7 @@ UserSchema.statics.findByToken = function findByToken(token) {
   let decoded;
 
   try {
-    decoded = verify(token, 'abc123');
+    decoded = verify(token, process.env.JWT_SECRET);
   } catch (e) {
     return Promise.reject();
   }

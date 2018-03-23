@@ -12,7 +12,7 @@ export const users = [{
   password: 'samplePass!',
   tokens: [{
     access: 'auth',
-    token: sign({ _id: userOneId, access: 'auth' }, 'abc123').toString(),
+    token: sign({ _id: userOneId, access: 'auth' }, process.env.JWT_SECRET).toString(),
   }],
 }, {
   _id: userTwoId,
@@ -20,7 +20,7 @@ export const users = [{
   password: 'SimplePass11!',
   tokens: [{
     access: 'auth',
-    token: sign({ _id: userTwoId, access: 'auth' }, 'abc123').toString(),
+    token: sign({ _id: userTwoId, access: 'auth' }, process.env.JWT_SECRET).toString(),
   }],
 }];
 
